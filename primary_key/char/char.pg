@@ -1,0 +1,28 @@
+#!/usr/local/bin/gnuplot
+reset
+
+# Titles & Axis Labels
+set title 'Benchmark UUID with CHAR data type by tps/qps'
+set xlabel 'Duration (s)'
+set ylabel 'Transactions and Queries (tps/qps)'
+
+# Output
+set terminal svg size 800,380 font 'Verdana,10'
+set output 'char.svg'
+
+# Grid
+set grid
+set key outside top right vertical
+set tics out nomirror
+
+# Lines
+set style data line
+set style line 1 linecolor rgb '#0060ad'
+set style line 2 linecolor rgb '#3ADF00'
+
+# Input data
+set datafile separator ";"
+
+# TPS
+plot 'insert.csv' using 0:2 linestyle 1 title 'Inserts', \
+     'select.csv' using 0:2 linestyle 2 title 'Select'
