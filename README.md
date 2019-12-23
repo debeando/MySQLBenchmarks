@@ -9,14 +9,20 @@ And with gnuplot we generate graphs in `.SVG` files and you can see with
 Each direcyory have a specific test case.
 
 - Primary Key: Test the best data type for this purpose.
-- Random:
+- Random: Generate only random data.
+- Row Format: Compressed VS Dynamic
 
 ## Consideration
 
--
--
--
--
+- El número de TPS or QPS será proporcional al rendimiento ofrecido por la CPU y los IOPS entre otros.
+
+## Install
+
+```bash
+brew install mysql@5.7
+brew install sysbench
+brew install gnuplot
+```
 
 ## Requirement
 
