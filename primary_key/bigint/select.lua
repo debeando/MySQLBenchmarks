@@ -22,20 +22,9 @@ end
 
 function sysbench.hooks.report_intermediate(stat)
   local seconds = stat.time_interval
-  local cpu = getCPUUsage()
 
-  print(string.format("%.0f;%4.2f;%0.2f",
+  print(string.format("%.0f;%4.2f",
     stat.time_total,
-    stat.events,
-    cpu
+    stat.events
   ))
-end
-
-function getCPUUsage()
-  local command = "ps -o pcpu -p $(pgrep mysqld) | tail -n +2"
-  local handle = io.popen(command)
-  local result = handle:read("*a")
-  handle:close()
-
-  return result
 end

@@ -5,8 +5,8 @@ function prepare()
   local con = drv:connect()
 
   con:query(string.format([[
-    CREATE TABLE IF NOT EXISTS uuid_bin (
-      id BINARY(16) NOT NULL,
+    CREATE TABLE IF NOT EXISTS uuid_varchar (
+      id VARCHAR(36) NOT NULL,
       PRIMARY KEY (id)
     )
   ]]))
@@ -16,7 +16,7 @@ function cleanup()
   local drv = sysbench.sql.driver()
   local con = drv:connect()
 
-  con:query("DROP TABLE IF EXISTS uuid_bin")
+  con:query("DROP TABLE IF EXISTS uuid_varchar")
 end
 
 function thread_init()
@@ -24,12 +24,12 @@ function thread_init()
   con = drv:connect()
 end
 
-function thread_done()
-  con:disconnect()
+function event ()
+  con:query("INSERT INTO uuid_varchar VALUES (UUID()),(UUID()),(UUID()),(UUID())")
 end
 
-function event ()
-  con:query("INSERT INTO uuid_bin VALUES (uuid_to_bin(UUID()))")
+function thread_done()
+  con:disconnect()
 end
 
 function sysbench.hooks.report_intermediate(stat)

@@ -3,6 +3,10 @@
 
 set -e
 
+if [[ -z "${MYSQL_HOST}" ]]; then
+  echo "The env var is not set: MYSQL_HOST"
+fi
+
 ./insert.lua \
   --mysql-host=$MYSQL_HOST \
   --mysql-password=sbtest \
@@ -32,7 +36,7 @@ set -e
 cat insert.log | grep -Eo '[0-9]*;[0-9]*.[0-9]*' > insert.csv
 cat select.log | grep -Eo '[0-9]*;[0-9]*.[0-9]*' > select.csv
 
-./bigint.pg
+./varchar.pg
 
 rm insert{.log,.csv}
 rm select{.log,.csv}

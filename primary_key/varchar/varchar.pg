@@ -2,13 +2,13 @@
 reset
 
 # Titles & Axis Labels
-set title 'Benchmark UUID with BINARY data type by tps/qps'
+set title 'Benchmark UUID with VARCHAR data type by tps/qps'
 set xlabel 'Duration (s)'
 set ylabel 'Transactions and Queries (tps/qps)'
 
 # Output
 set terminal svg size 800,380 font 'Verdana,10'
-set output 'binary.svg'
+set output 'varchar.svg'
 
 # Grid
 set grid

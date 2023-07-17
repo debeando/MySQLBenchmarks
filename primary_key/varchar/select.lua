@@ -6,10 +6,10 @@ function thread_init()
   drv = sysbench.sql.driver()
   con = drv:connect()
   local sql = [[
-    SELECT SQL_NO_CACHE bin_to_uuid(id)
-    FROM uuid_bin
+    SELECT SQL_NO_CACHE id
+    FROM uuid_varchar
     ORDER BY RAND()
-    LIMIT 1000
+    LIMIT 1000000
   ]]
 
   local rs = con:query(sql)
@@ -22,11 +22,11 @@ function thread_init()
 end
 
 function event ()
-  local rnd = math.random(1, 1000)
+  local rnd = math.random(1, 1000000)
   local sql = [[
     SELECT SQL_NO_CACHE *
-    FROM uuid_bin
-    WHERE id = uuid_to_bin('%s')
+    FROM uuid_varchar
+    WHERE id = '%s'
   ]]
 
   con:query(string.format(sql, ids[rnd]))

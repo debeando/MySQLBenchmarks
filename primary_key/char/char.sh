@@ -1,35 +1,38 @@
 #!/bin/bash
 # encoding: UTF-8
 
-./insert.lua \
-  --mysql-password=sbtest \
-  prepare
+set -e
 
 ./insert.lua \
+  --mysql-host=$MYSQL_HOST \
+  --mysql-password=sbtest \
+  prepare > /dev/null
+
+./insert.lua \
+  --mysql-host=$MYSQL_HOST \
   --mysql-password=sbtest \
   --threads=1 \
   --report-interval=1 \
-  --max-time=300 \
+  --max-time=1800 \
   run > insert.log
 
 ./select.lua \
+  --mysql-host=$MYSQL_HOST \
   --mysql-password=sbtest \
   --threads=1 \
   --report-interval=1 \
-  --max-time=300 \
-  --thread-init-timeout=120 \
+  --max-time=1800 \
   run > select.log
 
 ./insert.lua \
+  --mysql-host=$MYSQL_HOST \
   --mysql-password=sbtest \
-  cleanup
+  cleanup > /dev/null
 
-cat insert.log | egrep '\d+\;\d+\.\d+\;\d+\;\d+\.\d+' > insert.csv
-cat select.log | egrep '\d+\;\d+\.\d+\;\d+\.\d+' > select.csv
+cat insert.log | grep -Eo '[0-9]*;[0-9]*.[0-9]*' > insert.csv
+cat select.log | grep -Eo '[0-9]*;[0-9]*.[0-9]*' > select.csv
 
 ./char.pg
-
-open -a "Gapplin" char.svg
 
 rm insert{.log,.csv}
 rm select{.log,.csv}

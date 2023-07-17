@@ -36,31 +36,8 @@ function sysbench.hooks.report_intermediate(stat)
   drv = sysbench.sql.driver()
   con = drv:connect()
 
-  local size = getIDBSize()
-  local cpu = getCPUUsage()
-
-  print(string.format("%.0f;%4.2f;%d;%0.2f",
+  print(string.format("%.0f;%4.2f",
     stat.time_total,
-    stat.events,
-    size,
-    cpu
+    stat.events
   ))
-end
-
-function getIDBSize()
-  local command = "ls -lt /usr/local/var/mysql/sbtest/traditional.ibd | cut -d' ' -f8 | tr -d '\n'"
-  local handle = io.popen(command)
-  local result = handle:read("*a")
-  handle:close()
-
-  return result
-end
-
-function getCPUUsage()
-  local command = "ps -o pcpu -p $(pgrep mysqld) | tail -n +2"
-  local handle = io.popen(command)
-  local result = handle:read("*a")
-  handle:close()
-
-  return result
 end
